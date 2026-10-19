@@ -14,3 +14,25 @@
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
   })();
 
+  
+  // Navigate to sections without reloading the page
+  document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", function (event) {
+      const path = new URL(this.href).pathname;
+      const sectionId = path.split("/").filter(Boolean).pop();
+      const section = document.getElementById(sectionId);
+
+      if (!section) return;
+
+      event.preventDefault();
+      history.pushState({}, "", path);
+      section.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // Support browser Back and Forward buttons
+  window.addEventListener("popstate", () => {
+    const parts = location.pathname.split("/").filter(Boolean);
+    const sectionId = parts.pop() || "home";
+    document.getElementById(sectionId)?.scrollIntoView();
+  });
