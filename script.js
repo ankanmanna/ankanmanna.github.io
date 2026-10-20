@@ -38,20 +38,30 @@
   });
   
   
-// Convert hash navigation into clean URLs
+// Handle clean URL navigation for the single-page website
 document.querySelectorAll("[data-route]").forEach(link => {
-  link.addEventListener("click", function (event) {
+  link.addEventListener("click", event => {
     event.preventDefault();
 
-    const sectionId = this.dataset.route;
+    const sectionId = link.dataset.route;
     const section = document.getElementById(sectionId);
 
     if (!section) return;
 
-    // Update URL without reloading the page
-    history.pushState({}, "/" + sectionId);
+    // Change URL without reloading the page
+    history.pushState({ sectionId }, "", "/" + sectionId);
 
-    // Scroll to the target section
+    // Scroll to the selected section
     section.scrollIntoView({ behavior: "smooth" });
   });
+});
+
+// Handle browser Back and Forward buttons
+window.addEventListener("popstate", () => {
+  const sectionId = location.pathname.split("/").filter(Boolean).pop();
+  const section = document.getElementById(sectionId);
+
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
 });
