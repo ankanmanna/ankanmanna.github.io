@@ -36,3 +36,22 @@
     const sectionId = parts.pop() || "home";
     document.getElementById(sectionId)?.scrollIntoView();
   });
+  
+  
+// Convert hash navigation into clean URLs
+document.querySelectorAll("[data-route]").forEach(link => {
+  link.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const sectionId = this.dataset.route;
+    const section = document.getElementById(sectionId);
+
+    if (!section) return;
+
+    // Update URL without reloading the page
+    history.pushState({}, "", "/index.html/" + sectionId);
+
+    // Scroll to the target section
+    section.scrollIntoView({ behavior: "smooth" });
+  });
+});
