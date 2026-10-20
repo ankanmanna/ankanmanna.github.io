@@ -49,7 +49,7 @@ document.querySelectorAll("[data-route]").forEach(link => {
     if (!section) return;
 
     // Update URL without reloading the page
-    history.pushState({}, "", "/" + sectionId);
+    history.pushState({}, "/" + sectionId);
 
     // Scroll to the target section
     section.scrollIntoView({ behavior: "smooth" });
